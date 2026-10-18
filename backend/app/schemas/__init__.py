@@ -65,6 +65,7 @@ class AuthorizeRequest(BaseModel):
     action: str
     job_id: Optional[str] = None
     user_id: Optional[str] = None
+    ignore_stage: bool = False
 
 class CompareRequest(BaseModel):
     user_a_id: str

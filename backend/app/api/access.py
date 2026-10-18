@@ -35,7 +35,7 @@ def authorize_action(
         if not target_job:
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Job '{payload.job_id}' not found.")
 
-    decision = evaluate_access(db, target_user, payload.action, target_job, record_decision=True)
+    decision = evaluate_access(db, target_user, payload.action, target_job, record_decision=True, ignore_stage=payload.ignore_stage)
     return decision.to_dict()
 
 @router.post("/compare")

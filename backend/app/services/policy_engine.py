@@ -79,7 +79,8 @@ def evaluate_access(
     action: str,
     job: Optional[Job] = None,
     evaluation_time: Optional[datetime] = None,
-    record_decision: bool = False
+    record_decision: bool = False,
+    ignore_stage: bool = False
 ) -> DecisionResult:
     """
     Central Policy Engine evaluating access requests based on:
@@ -132,7 +133,7 @@ def evaluate_access(
                              ["HUMAN_STAFF_INTERACTION"], record_decision)
 
         # Layer 4: Job-Specific Workflow & State Validations
-        if job:
+        if job and not ignore_stage:
             # Check Filed Job Immutability
             if job.stage == "FILED" and action in ["prepare_job", "check_job", "edit_filed_job"]:
                 return _deny(db, actor_id, job_id, action, "JOB_LOCKED_FILED",
@@ -153,12 +154,12 @@ def evaluate_access(
                                  f"Action '{action}' requires stage {required_stages}, but current stage is '{job.stage}'.",
                                  [f"STAGE_IN_{required_stages}"], record_decision)
 
-            # Layer 5: Separation of Duties (4-Eyes Principle)
-            if action == "check_job":
-                if job.preparer_id and job.preparer_id == actor.id:
-                    return _deny(db, actor_id, job_id, action, "SAME_PERSON_MAKER_CHECKER",
-                                 f"Separation of Duties violation: Actor '{actor.name}' prepared this job and cannot approve/check their own work.",
-                                 ["DIFFERENT_ACTOR_THAN_PREPARER"], record_decision)
+        # Layer 5: Separation of Duties (4-Eyes Principle) - Always enforced!
+        if job and action == "check_job":
+            if job.preparer_id and job.preparer_id == actor.id:
+                return _deny(db, actor_id, job_id, action, "SAME_PERSON_MAKER_CHECKER",
+                             f"Separation of Duties violation: Actor '{actor.name}' prepared this job and cannot approve/check their own work.",
+                             ["DIFFERENT_ACTOR_THAN_PREPARER"], record_decision)
 
         # Layer 6: Required Permission Resolution
         required_permission = ACTION_PERMISSION_MAP.get(action)

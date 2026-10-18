@@ -30,8 +30,8 @@ def compare_user_access(
     if not job:
         raise ValueError("Job not found.")
 
-    decision_a = evaluate_access(db, user_a, action, job)
-    decision_b = evaluate_access(db, user_b, action, job)
+    decision_a = evaluate_access(db, user_a, action, job, ignore_stage=True)
+    decision_b = evaluate_access(db, user_b, action, job, ignore_stage=True)
 
     # Analyze root cause of divergence
     divergence_summary = []
@@ -44,9 +44,14 @@ def compare_user_access(
             f"{allowed_user} is permitted because they matched an active grant, whereas {denied_user} was denied due to: {denied_decision.reason_code} ({denied_decision.reason})."
         )
     elif decision_a.allowed and decision_b.allowed:
-        divergence_summary.append("Both users are authorized to perform this action on this job.")
+        divergence_summary.append("Both users are authorized by role and scope to perform this action on this job.")
     else:
         divergence_summary.append("Both users are denied permission for this action on this job.")
+
+    if job.stage != "PREPARED" and action == "check_job":
+        divergence_summary.append(f"(Note: Current live job stage is '{job.stage}'; in live execution, check_job requires PREPARED stage).")
+    elif job.stage != "CONFIRMED" and action == "prepare_job":
+        divergence_summary.append(f"(Note: Current live job stage is '{job.stage}'; in live execution, prepare_job requires CONFIRMED stage).")
 
     return {
         "job_id": job.id,

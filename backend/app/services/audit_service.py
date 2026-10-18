@@ -96,8 +96,8 @@ def who_could_act_at_timestamp(
     eligible_users = []
 
     for user in all_users:
-        # Evaluate access using historical point-in-time timestamp
-        decision = evaluate_access(db, user, action, job, evaluation_time=clean_time)
+        # Evaluate access using historical point-in-time timestamp (evaluating role and scope at that date)
+        decision = evaluate_access(db, user, action, job, evaluation_time=clean_time, ignore_stage=True)
         if decision.allowed:
             eligible_users.append({
                 "user_id": user.id,

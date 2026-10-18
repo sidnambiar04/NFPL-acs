@@ -136,51 +136,53 @@ def seed_initial_demo_data(force: bool = False):
 
         db.flush()
 
-        # 6. Seed Scoped Role Assignments
+        # 6. Seed Scoped Role Assignments (Valid from 60 days ago to cover historical inquiries like Oct 3rd)
+        past_valid = now - timedelta(days=60)
+
         # Person A (Asha): Maker everywhere; Checker for Sun Pharma (client_03) and Dr. Reddy's (client_07)
         assignments = [
-            RoleAssignment(id="asgn_asha_maker", user_id="usr_asha", role_id="MAKER", client_id="*", branch_id="*", direction="*", mode="*", valid_from=now, status="ACTIVE", granted_by="usr_admin_raj"),
-            RoleAssignment(id="asgn_asha_chk_03", user_id="usr_asha", role_id="CHECKER", client_id="client_03", branch_id="*", direction="*", mode="*", valid_from=now, status="ACTIVE", granted_by="usr_admin_raj"),
-            RoleAssignment(id="asgn_asha_chk_07", user_id="usr_asha", role_id="CHECKER", client_id="client_07", branch_id="*", direction="*", mode="*", valid_from=now, status="ACTIVE", granted_by="usr_admin_raj"),
+            RoleAssignment(id="asgn_asha_maker", user_id="usr_asha", role_id="MAKER", client_id="*", branch_id="*", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
+            RoleAssignment(id="asgn_asha_chk_03", user_id="usr_asha", role_id="CHECKER", client_id="client_03", branch_id="*", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
+            RoleAssignment(id="asgn_asha_chk_07", user_id="usr_asha", role_id="CHECKER", client_id="client_07", branch_id="*", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
 
             # Person B (Ravi): Checker for Sun Pharma (client_03), Mumbai (branch_bom), Import only, all modes
-            RoleAssignment(id="asgn_ravi_chk", user_id="usr_ravi", role_id="CHECKER", client_id="client_03", branch_id="branch_bom", direction="IMPORT", mode="*", valid_from=now, status="ACTIVE", granted_by="usr_admin_raj"),
+            RoleAssignment(id="asgn_ravi_chk", user_id="usr_ravi", role_id="CHECKER", client_id="client_03", branch_id="branch_bom", direction="IMPORT", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
 
             # Person C (Vikram - Absent): Supervisor for Delhi branch
-            RoleAssignment(id="asgn_vikram_sup", user_id="usr_vikram", role_id="SUPERVISOR", client_id="*", branch_id="branch_del", direction="*", mode="*", valid_from=now, status="ACTIVE", granted_by="usr_admin_raj"),
+            RoleAssignment(id="asgn_vikram_sup", user_id="usr_vikram", role_id="SUPERVISOR", client_id="*", branch_id="branch_del", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
 
             # Person D (Priya): Maker at Mumbai
-            RoleAssignment(id="asgn_priya_maker", user_id="usr_priya", role_id="MAKER", client_id="*", branch_id="branch_bom", direction="*", mode="*", valid_from=now, status="ACTIVE", granted_by="usr_admin_raj"),
+            RoleAssignment(id="asgn_priya_maker", user_id="usr_priya", role_id="MAKER", client_id="*", branch_id="branch_bom", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
 
             # Person E (Client User Sameer): Client Viewer for Sun Pharma
-            RoleAssignment(id="asgn_client_sun", user_id="usr_client_sun", role_id="CLIENT_VIEWER", client_id="client_03", branch_id="*", direction="*", mode="*", valid_from=now, status="ACTIVE", granted_by="usr_admin_raj"),
+            RoleAssignment(id="asgn_client_sun", user_id="usr_client_sun", role_id="CLIENT_VIEWER", client_id="client_03", branch_id="*", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
 
             # Admin Rajesh: Full system admin
-            RoleAssignment(id="asgn_admin_raj", user_id="usr_admin_raj", role_id="ADMIN", client_id="*", branch_id="*", direction="*", mode="*", valid_from=now, status="ACTIVE", granted_by="usr_admin_raj"),
+            RoleAssignment(id="asgn_admin_raj", user_id="usr_admin_raj", role_id="ADMIN", client_id="*", branch_id="*", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
 
             # Parser Service: Parser role
-            RoleAssignment(id="asgn_parser_svc", user_id="usr_parser_svc", role_id="PARSER", client_id="*", branch_id="*", direction="*", mode="*", valid_from=now, status="ACTIVE", granted_by="usr_admin_raj"),
+            RoleAssignment(id="asgn_parser_svc", user_id="usr_parser_svc", role_id="PARSER", client_id="*", branch_id="*", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
 
             # Other staff assignments for branch coverage
-            RoleAssignment(id="asgn_kavita_filer", user_id="usr_kavita", role_id="FILER", client_id="*", branch_id="branch_maa", direction="*", mode="*", valid_from=now, status="ACTIVE", granted_by="usr_admin_raj"),
-            RoleAssignment(id="asgn_arjun_chk", user_id="usr_arjun", role_id="CHECKER", client_id="*", branch_id="branch_bom", direction="*", mode="*", valid_from=now, status="ACTIVE", granted_by="usr_admin_raj"),
-            RoleAssignment(id="asgn_sneha_filer", user_id="usr_sneha", role_id="FILER", client_id="*", branch_id="branch_blr", direction="*", mode="*", valid_from=now, status="ACTIVE", granted_by="usr_admin_raj"),
-            RoleAssignment(id="asgn_amit_sup", user_id="usr_amit", role_id="SUPERVISOR", client_id="*", branch_id="branch_ccu", direction="*", mode="*", valid_from=now, status="ACTIVE", granted_by="usr_admin_raj"),
-            RoleAssignment(id="asgn_pooja_maker", user_id="usr_pooja", role_id="MAKER", client_id="*", branch_id="branch_del", direction="*", mode="*", valid_from=now, status="ACTIVE", granted_by="usr_admin_raj"),
-            RoleAssignment(id="asgn_divya_filer", user_id="usr_divya", role_id="FILER", client_id="*", branch_id="branch_bom", direction="*", mode="*", valid_from=now, status="ACTIVE", granted_by="usr_admin_raj"),
+            RoleAssignment(id="asgn_kavita_filer", user_id="usr_kavita", role_id="FILER", client_id="*", branch_id="branch_maa", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
+            RoleAssignment(id="asgn_arjun_chk", user_id="usr_arjun", role_id="CHECKER", client_id="*", branch_id="branch_bom", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
+            RoleAssignment(id="asgn_sneha_filer", user_id="usr_sneha", role_id="FILER", client_id="*", branch_id="branch_blr", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
+            RoleAssignment(id="asgn_amit_sup", user_id="usr_amit", role_id="SUPERVISOR", client_id="*", branch_id="branch_ccu", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
+            RoleAssignment(id="asgn_pooja_maker", user_id="usr_pooja", role_id="MAKER", client_id="*", branch_id="branch_del", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
+            RoleAssignment(id="asgn_divya_filer", user_id="usr_divya", role_id="FILER", client_id="*", branch_id="branch_bom", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
         ]
         db.add_all(assignments)
 
-        # 7. Seed Delegation: Vikram (Absent) delegates to Priya for 7 days
+        # 7. Seed Delegation: Vikram (Absent) delegates to Priya (covers historical inquiry on 3rd)
         delegation = Delegation(
             id="del_vikram_to_priya",
             delegator_id="usr_vikram",
             delegate_id="usr_priya",
-            valid_from=now - timedelta(days=1),
-            valid_until=now + timedelta(days=6),
+            valid_from=now - timedelta(days=20),
+            valid_until=now + timedelta(days=10),
             status="ACTIVE",
             reason="Annual leave coverage for Delhi operations",
-            created_at=now - timedelta(days=1)
+            created_at=now - timedelta(days=20)
         )
         db.add(delegation)
 

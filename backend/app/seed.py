@@ -30,10 +30,10 @@ def seed_initial_demo_data(force: bool = False):
 
         # 1. Seed Branches (5 branches)
         branches = [
-            Branch(id="branch_bom", code="BOM", name="Mumbai Central Branch", city="Mumbai"),
+            Branch(id="branch_mum", code="MUM", name="Mumbai Central Branch", city="Mumbai"),
             Branch(id="branch_del", code="DEL", name="Delhi IGI Cargo Branch", city="Delhi"),
-            Branch(id="branch_maa", code="MAA", name="Chennai Harbor Branch", city="Chennai"),
-            Branch(id="branch_ccu", code="CCU", name="Kolkata Port Branch", city="Kolkata"),
+            Branch(id="branch_cen", code="CEN", name="Chennai Harbor Branch", city="Chennai"),
+            Branch(id="branch_kol", code="KOL", name="Kolkata Port Branch", city="Kolkata"),
             Branch(id="branch_blr", code="BLR", name="Bengaluru Airport Branch", city="Bengaluru"),
         ]
         db.add_all(branches)
@@ -96,26 +96,26 @@ def seed_initial_demo_data(force: bool = False):
 
         users_specs = [
             # ID, Name, Email, Type, Client_ID, Branch_ID, Status
-            ("usr_asha", "Asha Sharma", "asha@nagarkot.in", "STAFF", None, "branch_bom", "ACTIVE"),
-            ("usr_ravi", "Ravi Kumar", "ravi@nagarkot.in", "STAFF", None, "branch_bom", "ACTIVE"),
+            ("usr_asha", "Asha Sharma", "asha@nagarkot.in", "STAFF", None, "branch_mum", "ACTIVE"),
+            ("usr_ravi", "Ravi Kumar", "ravi@nagarkot.in", "STAFF", None, "branch_mum", "ACTIVE"),
             ("usr_vikram", "Vikram Seth", "vikram@nagarkot.in", "STAFF", None, "branch_del", "ABSENT"),
-            ("usr_priya", "Priya Nair", "priya@nagarkot.in", "STAFF", None, "branch_bom", "ACTIVE"),
+            ("usr_priya", "Priya Nair", "priya@nagarkot.in", "STAFF", None, "branch_mum", "ACTIVE"),
             ("usr_client_sun", "Sameer Mehta", "sameer@sunpharma.com", "CLIENT", "client_03", None, "ACTIVE"),
-            ("usr_admin_raj", "Rajesh Patel", "rajesh.admin@nagarkot.in", "ADMIN", None, "branch_bom", "ACTIVE"),
+            ("usr_admin_raj", "Rajesh Patel", "rajesh.admin@nagarkot.in", "ADMIN", None, "branch_mum", "ACTIVE"),
             ("usr_parser_svc", "Overnight EDI Parser", "parser@system.internal", "SERVICE", None, None, "ACTIVE"),
-            ("usr_kavita", "Kavita Rao", "kavita@nagarkot.in", "STAFF", None, "branch_maa", "ACTIVE"),
-            ("usr_arjun", "Arjun Deshmukh", "arjun@nagarkot.in", "STAFF", None, "branch_bom", "ACTIVE"),
+            ("usr_kavita", "Kavita Rao", "kavita@nagarkot.in", "STAFF", None, "branch_cen", "ACTIVE"),
+            ("usr_arjun", "Arjun Deshmukh", "arjun@nagarkot.in", "STAFF", None, "branch_mum", "ACTIVE"),
             ("usr_sneha", "Sneha Iyer", "sneha@nagarkot.in", "STAFF", None, "branch_blr", "ACTIVE"),
-            ("usr_amit", "Amit Mukherjee", "amit@nagarkot.in", "STAFF", None, "branch_ccu", "ACTIVE"),
+            ("usr_amit", "Amit Mukherjee", "amit@nagarkot.in", "STAFF", None, "branch_kol", "ACTIVE"),
             ("usr_pooja", "Pooja Verma", "pooja@nagarkot.in", "STAFF", None, "branch_del", "ACTIVE"),
-            ("usr_rohit", "Rohit Sen", "rohit@nagarkot.in", "STAFF", None, "branch_ccu", "ACTIVE"),
-            ("usr_meera", "Meera Nambiar", "meera@nagarkot.in", "STAFF", None, "branch_maa", "ACTIVE"),
+            ("usr_rohit", "Rohit Sen", "rohit@nagarkot.in", "STAFF", None, "branch_kol", "ACTIVE"),
+            ("usr_meera", "Meera Nambiar", "meera@nagarkot.in", "STAFF", None, "branch_cen", "ACTIVE"),
             ("usr_karan", "Karan Johar", "karan@nagarkot.in", "STAFF", None, "branch_blr", "ACTIVE"),
-            ("usr_divya", "Divya Menon", "divya@nagarkot.in", "STAFF", None, "branch_bom", "ACTIVE"),
+            ("usr_divya", "Divya Menon", "divya@nagarkot.in", "STAFF", None, "branch_mum", "ACTIVE"),
             ("usr_client_tata", "Nikhil Rane", "nikhil@tatamotors.com", "CLIENT", "client_01", None, "ACTIVE"),
             ("usr_suresh", "Suresh Raina", "suresh@nagarkot.in", "STAFF", None, "branch_del", "INACTIVE"),
             ("usr_manish", "Manish Pandey", "manish@nagarkot.in", "STAFF", None, "branch_del", "ACTIVE"),
-            ("usr_anita", "Anita Bose", "anita@nagarkot.in", "STAFF", None, "branch_ccu", "ACTIVE")
+            ("usr_anita", "Anita Bose", "anita@nagarkot.in", "STAFF", None, "branch_kol", "ACTIVE")
         ]
 
         users_dict = {}
@@ -145,14 +145,14 @@ def seed_initial_demo_data(force: bool = False):
             RoleAssignment(id="asgn_asha_chk_03", user_id="usr_asha", role_id="CHECKER", client_id="client_03", branch_id="*", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
             RoleAssignment(id="asgn_asha_chk_07", user_id="usr_asha", role_id="CHECKER", client_id="client_07", branch_id="*", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
 
-            # Person B (Ravi): Checker for Sun Pharma (client_03), Mumbai (branch_bom), Import only, all modes
-            RoleAssignment(id="asgn_ravi_chk", user_id="usr_ravi", role_id="CHECKER", client_id="client_03", branch_id="branch_bom", direction="IMPORT", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
+            # Person B (Ravi): Checker for Sun Pharma (client_03), Mumbai (branch_mum), Import only, all modes
+            RoleAssignment(id="asgn_ravi_chk", user_id="usr_ravi", role_id="CHECKER", client_id="client_03", branch_id="branch_mum", direction="IMPORT", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
 
             # Person C (Vikram - Absent): Supervisor for Delhi branch
             RoleAssignment(id="asgn_vikram_sup", user_id="usr_vikram", role_id="SUPERVISOR", client_id="*", branch_id="branch_del", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
 
             # Person D (Priya): Maker at Mumbai
-            RoleAssignment(id="asgn_priya_maker", user_id="usr_priya", role_id="MAKER", client_id="*", branch_id="branch_bom", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
+            RoleAssignment(id="asgn_priya_maker", user_id="usr_priya", role_id="MAKER", client_id="*", branch_id="branch_mum", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
 
             # Person E (Client User Sameer): Client Viewer for Sun Pharma
             RoleAssignment(id="asgn_client_sun", user_id="usr_client_sun", role_id="CLIENT_VIEWER", client_id="client_03", branch_id="*", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
@@ -164,12 +164,12 @@ def seed_initial_demo_data(force: bool = False):
             RoleAssignment(id="asgn_parser_svc", user_id="usr_parser_svc", role_id="PARSER", client_id="*", branch_id="*", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
 
             # Other staff assignments for branch coverage
-            RoleAssignment(id="asgn_kavita_filer", user_id="usr_kavita", role_id="FILER", client_id="*", branch_id="branch_maa", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
-            RoleAssignment(id="asgn_arjun_chk", user_id="usr_arjun", role_id="CHECKER", client_id="*", branch_id="branch_bom", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
+            RoleAssignment(id="asgn_kavita_filer", user_id="usr_kavita", role_id="FILER", client_id="*", branch_id="branch_cen", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
+            RoleAssignment(id="asgn_arjun_chk", user_id="usr_arjun", role_id="CHECKER", client_id="*", branch_id="branch_mum", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
             RoleAssignment(id="asgn_sneha_filer", user_id="usr_sneha", role_id="FILER", client_id="*", branch_id="branch_blr", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
-            RoleAssignment(id="asgn_amit_sup", user_id="usr_amit", role_id="SUPERVISOR", client_id="*", branch_id="branch_ccu", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
+            RoleAssignment(id="asgn_amit_sup", user_id="usr_amit", role_id="SUPERVISOR", client_id="*", branch_id="branch_kol", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
             RoleAssignment(id="asgn_pooja_maker", user_id="usr_pooja", role_id="MAKER", client_id="*", branch_id="branch_del", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
-            RoleAssignment(id="asgn_divya_filer", user_id="usr_divya", role_id="FILER", client_id="*", branch_id="branch_bom", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
+            RoleAssignment(id="asgn_divya_filer", user_id="usr_divya", role_id="FILER", client_id="*", branch_id="branch_mum", direction="*", mode="*", valid_from=past_valid, status="ACTIVE", granted_by="usr_admin_raj"),
         ]
         db.add_all(assignments)
 
@@ -194,9 +194,9 @@ def seed_initial_demo_data(force: bool = False):
         # Perfect for testing Maker-Checker conflict: Asha prepared it, so Asha CANNOT check it, but Ravi CAN!
         job_101 = Job(
             id="job_101",
-            job_number="JOB-BOM-2026-0101",
+            job_number="JOB-MUM-2026-0101",
             client_id="client_03",
-            branch_id="branch_bom",
+            branch_id="branch_mum",
             direction="IMPORT",
             mode="AIR",
             stage="PREPARED",
@@ -214,9 +214,9 @@ def seed_initial_demo_data(force: bool = False):
         # Case 2: Job in CONFIRMED waiting to be prepared in Mumbai
         job_102 = Job(
             id="job_102",
-            job_number="JOB-BOM-2026-0102",
+            job_number="JOB-MUM-2026-0102",
             client_id="client_01",
-            branch_id="branch_bom",
+            branch_id="branch_mum",
             direction="EXPORT",
             mode="OCEAN_FCL",
             stage="CONFIRMED",
@@ -231,9 +231,9 @@ def seed_initial_demo_data(force: bool = False):
         # Case 3: Job in CHECKED stage waiting for Filer in Mumbai
         job_103 = Job(
             id="job_103",
-            job_number="JOB-BOM-2026-0103",
+            job_number="JOB-MUM-2026-0103",
             client_id="client_03",
-            branch_id="branch_bom",
+            branch_id="branch_mum",
             direction="IMPORT",
             mode="AIR",
             stage="CHECKED",

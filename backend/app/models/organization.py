@@ -6,7 +6,7 @@ from app.core.database import Base
 class Branch(Base):
     __tablename__ = "branches"
 
-    id = Column(String(50), primary_key=True)  # e.g. "branch_bom", "branch_del"
+    id = Column(String(50), primary_key=True)  # e.g. "branch_mum", "branch_del"
     code = Column(String(10), unique=True, nullable=False)  # "BOM", "DEL"
     name = Column(String(100), nullable=False)
     city = Column(String(100), nullable=False)

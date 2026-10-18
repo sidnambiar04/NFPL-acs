@@ -36,7 +36,7 @@ def test_maker_checker_conflict(client, db_session):
 def test_scope_mismatch(client, db_session):
     """
     Test Case 2: Scope Mismatch.
-    Ravi is Checker ONLY for client_03 (Sun Pharma), branch_bom (Mumbai), IMPORT.
+    Ravi is Checker ONLY for client_03 (Sun Pharma), branch_mum (Mumbai), IMPORT.
     If Ravi attempts to check a Delhi export job, it must be denied with SCOPE_MISMATCH.
     """
     delhi_job = db_session.query(Job).filter(Job.id == "job_105").first() # client_02, Delhi
@@ -142,7 +142,7 @@ def test_parser_service_account_restrictions(client, db_session):
         {
             "job_number": "JOB-PARSER-AUTO-01",
             "client_id": "client_01",
-            "branch_id": "branch_bom",
+            "branch_id": "branch_mum",
             "direction": "IMPORT",
             "mode": "AIR",
             "description": "Auto parsed air manifest",

@@ -1,3 +1,4 @@
+import os
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -23,10 +24,20 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Configure CORS for local development and hosted frontend
+# Configure CORS — allow any Vercel/Render subdomain + localhost for dev
+_raw_origins = os.getenv("ALLOWED_ORIGINS", "")
+_extra = [o.strip() for o in _raw_origins.split(",") if o.strip()]
+CORS_ORIGINS = [
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://localhost:3000",
+    *_extra,
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=CORS_ORIGINS,
+    allow_origin_regex=r"https://.*\.(vercel\.app|onrender\.com)",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
